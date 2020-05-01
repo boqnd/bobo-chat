@@ -11,7 +11,7 @@ module.exports = function(app){
     });
 
     con.connect(function(err) {
-        if (err) throw err;
+        //if (err) throw err;
         console.log("Connected!");
     });
 
