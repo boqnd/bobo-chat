@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+    <title>Socket.IO chat</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font: 13px Helvetica, Arial; }
+        form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+        form input { border: 0; padding: 10px; width: 70%; font-size:60pt; margin-right: 0.5%; }
+        form button { width: 29%; background: rgb(130, 224, 255); border: none; font-size:60pt; padding: 10px; }
+        #messages { list-style-type: none; margin: 0; margin-bottom: 30%; padding: 0; font-size:60pt}
+        #messages li { padding: 5px 10px; }
+        #messages li:nth-child(odd) { background: #eee; }
+    </style>
+</head>
+<body>
+<ul id="messages"></ul>
+<form action="">
+    <input id="m" autocomplete="off" /><button type="submit">Send</button>
+</form>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script>
+    $(function () {
+
+        var user = ""
+        document.cookie.split(';').forEach(cookie =>
+        {
+            if(cookie.includes("username"))
+            {
+                user = cookie.split('=')[1]
+            }
+        })
+
+        var socket = io();
+        $('form').submit(function(e) {
+            e.preventDefault(); // prevents page reloading
+            socket.emit('chat message', {msg: $('#m').val(), user: user});
+            $('#m').val('');
+            return false;
+        });
+
+        socket.on('chat message', function(msg){
+
+            // var user = ""
+            // document.cookie.split(';').forEach(cookie =>
+            // {
+            //     if(cookie.includes("username"))
+            //     {
+            //         user = cookie.split('=')[1]
+            //     }
+            // })
+
+            $('#messages').append($('<li>').text(msg));
+            //alert( $.cookie("username") );
+        });
+    });
+</script>
+</body>
+</html>
