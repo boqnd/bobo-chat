@@ -53,6 +53,8 @@ module.exports = function(app){
     })
 
     app.post('/login', (req, res) => {
+        console.log('Someone is loging in');
+
         var username = req.body.username;
         var password = req.body.password;
 
@@ -76,32 +78,31 @@ module.exports = function(app){
             //
             // })
             db.selectUser(username, (user) => {
-                console.log("selecting user")
                 if (user) {
                     if (bcrypt.compareSync(password, user.password)) {
-                        console.log("comparing password")
 
-                        res.cookie('username', username, { maxAge: 360000 });
-                        console.log("cookie")
+                        res.cookie('username', username, { maxAge: 900000 });
 
-
+                        console.log(username + " just logged in");
                         return res.redirect("/chat")
                     } else {
+                        console.log(username + " entered wrong password -> " + password);
                         res.render('login', { al: true, msg: "Wrong username or password." })
                     }
                 } else {
+                    console.log("username " + username + " does not exist");
                     res.render('login', { al: true, msg: "Wrong username or password." })
                 }
             })
         } else {
-            console.log("blank password");
+            console.log(username + " entered blank password");
             res.render('login', { msg: "Password can not be blank.", al: true })
         }
     })
 
 
     app.post('/signup', async (req, res) => {
-        console.log('start');
+        console.log('Someone is signing up');
 
         var username = req.body.username;
         var password = req.body.password;
@@ -146,15 +147,15 @@ module.exports = function(app){
                             res.render('login', { msg: "Account " + username + " created. Now you can login.", al: true })
                         })
                     }else {
-                        console.log("confirm error");
+                        console.log("Wrong confirm password -> " + password + " != " + confirmPassword);
                         res.render('signup', { msg: "You did not confirm the password correctly.", al: true })
                     }
                 }else {
-                    console.log("blank password");
+                    console.log("Blank password");
                     res.render('signup', { msg: "Password can not be blank.", al: true })
                 }
             }else {
-                console.log("username exists");
+                console.log("Username " + username + " exists");
                 res.render('signup', { msg: "Username " + username + " already exists.", al: true })
             }
         })
