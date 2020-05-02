@@ -8,9 +8,10 @@ var io = require('socket.io')(http);
 require('./routes/loginRoutes')(app);
 var cookieParser = require('cookie-parser');
 
-
+var cors = require('cors')
 
 app.use(cookieParser());
+app.use(cors())
 
 app.set('view engine', 'ejs')
 

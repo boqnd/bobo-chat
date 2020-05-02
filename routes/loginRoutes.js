@@ -76,9 +76,14 @@ module.exports = function(app){
             //
             // })
             db.selectUser(username, (user) => {
+                console.log("selecting user")
                 if (user) {
                     if (bcrypt.compareSync(password, user.password)) {
+                        console.log("comparing password")
+
                         res.cookie('username', username, { maxAge: 360000 });
+                        console.log("cookie")
+
 
                         return res.redirect("/chat")
                     } else {
