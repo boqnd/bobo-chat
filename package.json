@@ -1,0 +1,9 @@
+{
+  "name": "chat",
+  "version": "1.0.0",
+  "dependencies": {
+    "socket.io": "latest",
+    "cookie-parser": "latest",
+    "express": "latest"
+  }
+}

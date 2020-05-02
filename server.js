@@ -1,35 +1,16 @@
 const express = require('express');
 const app = express();
-var http = require('http').createServer(app);
-// const https = require('https');
-// const fs = require('fs');
+const http = require('http').createServer(app);
+const io = require('socket.io')(http);
+const cookieParser = require('cookie-parser');
 
-var io = require('socket.io')(http);
-require('./routes/loginRoutes')(app);
-var cookieParser = require('cookie-parser');
-
+app.set('view engine', 'ejs');
+app.set('view engine', 'ejs');
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.set('view engine', 'ejs')
-
-var user = "";
-
-app.get('/chat', (req, res) => {
-    var cookie = req.cookies.username;
-
-    if (cookie === undefined)
-    {
-        return res.redirect('/login');
-    }else{
-        user = cookie;
-        res.render('home')
-    }
-});
-
-app.get('/clear', (req, res) => {
-    res.clearCookie('username');
-    res.send('cookie foo cleared');
-})
+require('./routes/loginRoutes')(app);
+require('./routes/chatRoutes')(app);
 
 io.on('connection', (socket) => {
     socket.on('chat message', (msg) => {
@@ -38,20 +19,6 @@ io.on('connection', (socket) => {
     })
 });
 
-app.get('/c', (req, res) => {
-    res.cookie('name', 'express').send('cookie set'); //Sets name = express
-})
-
-app.get('/co', (req, res) => {
-    console.log('Cookies: ', req.cookies);
-})
-
-http.listen(4002);
-
-
-// const options = {
-//     key: fs.readFileSync('server.key'),
-//     cert: fs.readFileSync('server.cert')
-// };
-//
-// https.createServer(options, app).listen(443);
+http.listen(4002, () => {
+    console.log('Server is running!')
+});
