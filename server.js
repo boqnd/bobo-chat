@@ -5,7 +5,7 @@ var http = require('http').createServer(app);
 // const fs = require('fs');
 
 var io = require('socket.io')(http);
-require('./loginRoutes')(app);
+require('./routes/loginRoutes')(app);
 var cookieParser = require('cookie-parser');
 
 
