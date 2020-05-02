@@ -8,6 +8,7 @@ app.set('view engine', 'ejs');
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.set('trust proxy', true)
 
 require('./routes/loginRoutes')(app);
 require('./routes/chatRoutes')(app);

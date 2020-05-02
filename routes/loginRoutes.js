@@ -4,7 +4,9 @@ const db = require('../db/mongoDb');
 module.exports = function(app){
 
     app.get('/',(req, res) => {
+        console.log( req.ip );
         return res.redirect('/login');
+
     })
 
     app.get('/login', (req, res) => {
