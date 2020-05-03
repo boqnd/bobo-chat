@@ -36,7 +36,7 @@
         <button id="logout">Logout</button>
     </form>
     <form action="selectUser" method="post" id="selectUserForm">
-        <input type="text" name="username" value="" autocomplete="off" id="userSelect" placeholder="select chat"/>
+        <input type="text" name="username" value="" autocomplete="off" id="userSelect" placeholder="select user for private chat or 'general' for global chat"/>
         <button type="submit" id="select">Select</button>
     </form>
 
@@ -77,8 +77,18 @@
         <%}
     ) %>
 
-        socket.on('chat message', function(msg){
-            $('#messages').append($('<li>').text(msg));
+        socket.on('chat message', function(data){
+            console.log(data.sender)
+            console.log(data.receiver)
+            console.log(data.message)
+
+            if((currUser === data.receiver && '<%=chatUser%>' === data.sender) || (currUser === data.sender && '<%=chatUser%>' === data.receiver))
+            {
+                $('#messages').append($('<li>').text(data.message));
+            }else if(data.receiver === 'general')
+            {
+                $('#messages').append($('<li>').text(data.message));
+            }
         });
     });
 </script>
@@ -97,5 +107,12 @@
         }
     }
 </script>
+
+<%if (al) {%>
+
+<script>alert("<%=al%>")</script>
+
+<%}%>
+
 </body>
 </html>

@@ -51,12 +51,29 @@ client.connect((err, db) => {
                 //console.log(result.msg)
             }else
             {
-                messages.insertOne({sender: sender, receiver: receiver, msg: [msg]},(error1, result1) => {
+                messages.findOne({sender: receiver, receiver: sender}, (error, result) => {
                     if (err) throw err;
 
-                    callback(result1);
+                    if (result) {
+                        result.msg.push(msg);
+                        let data = result.msg;
+
+                        messages.updateOne({sender: receiver, receiver: sender},{ $set: {msg: data}}, (error1, result1) => {
+                            console.log('updated')
+                            //console.log(result1.msg)
+                        })
+
+                        //console.log(result.msg)
+                    }else
+                    {
+                        messages.insertOne({sender: sender, receiver: receiver, msg: [msg]},(error1, result1) => {
+                            if (err) throw err;
+
+                            callback(result1);
+                        })
+                        console.log('inserted')
+                    }
                 })
-                console.log('inserted')
             }
 
         })
@@ -72,7 +89,15 @@ client.connect((err, db) => {
             if (result) {
                 callback(result.msg)
             }else{
-                callback([])
+                messages.findOne({ sender: receiver, receiver: sender }, (error, result) => {
+                    if (err) throw err;
+
+                    if (result) {
+                        callback(result.msg)
+                    }else{
+                        callback([])
+                    }
+                })
             }
         })
     }

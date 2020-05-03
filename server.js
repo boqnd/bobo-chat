@@ -22,9 +22,12 @@ io.on('connection', (socket) => {
         let receiver = data.receiver;
         let message = data.user + " - " + data.msg;
 
-        db.insertMessage(sender,receiver,message,()=>{})
+        if (data.receiver !== 'general') {
+            db.insertMessage(sender, receiver, message, () => {
+            })
+        }
 
-        io.emit('chat message', message);
+        io.emit('chat message', {sender:sender, receiver:receiver, message:message});
     })
 });
 
