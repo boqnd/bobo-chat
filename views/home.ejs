@@ -32,7 +32,7 @@
 <body>
 <div id="myHeader">
     <form action="logout">
-        <label for="logout" id="curr">--> current chat: <%=user%></label>
+        <label for="logout" id="curr">--> current chat: <%=chatUser%></label>
         <button id="logout">Logout</button>
     </form>
     <form action="selectUser" method="post" id="selectUserForm">
@@ -52,36 +52,33 @@
 <script>
     $(function () {
 
-        var user = ""
+        var currUser = ""
         document.cookie.split(';').forEach(cookie =>
         {
             if(cookie.includes("username"))
             {
-                user = cookie.split('=')[1]
+                currUser = cookie.split('=')[1]
             }
         })
 
         var socket = io();
         $('#chatText').submit(function(e) {
             e.preventDefault(); // prevents page reloading
-            socket.emit('chat message', {msg: $('#m').val(), user: user});
+            socket.emit('chat message', {msg: $('#m').val(), user: currUser, receiver: '<%=chatUser%>'});
             $('#m').val('');
             return false;
         });
 
+        <% oldMessages.forEach(
+            msg => {%>
+                console.log(
+                    $('#messages').append($('<li>').text('<%=msg%>'))
+                )
+        <%}
+    ) %>
+
         socket.on('chat message', function(msg){
-
-            // var user = ""
-            // document.cookie.split(';').forEach(cookie =>
-            // {
-            //     if(cookie.includes("username"))
-            //     {
-            //         user = cookie.split('=')[1]
-            //     }
-            // })
-
             $('#messages').append($('<li>').text(msg));
-            //alert( $.cookie("username") );
         });
     });
 </script>
