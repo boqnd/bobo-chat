@@ -84,4 +84,10 @@ module.exports = function(app){
             }
         })
     })
+
+    app.get('/logout', (req, res) => {
+        res.clearCookie('username');
+
+        res.render('login',  {al: false})
+    })
 }

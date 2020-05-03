@@ -9,7 +9,12 @@ module.exports = function(app){
             return res.redirect('/login');
         }else{
             user = cookie;
-            res.render('home')
+            res.render('home', {user: 'general'})
         }
+    });
+
+    app.post('/selectUser', (req, res) => {
+        let username= req.body.username;
+        res.render('home', {user: username});
     });
 }

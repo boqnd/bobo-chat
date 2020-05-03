@@ -10,7 +10,7 @@
         button { width: 29%; background: rgb(130, 224, 255); border: none; font-size:60pt; padding: 10px; }
         #userSelect{background: #000; border-bottom: 3px dotted #529da4; padding: 10px; width: 84%; font-size:20pt; margin-right: 0.5%; color: #989fa2;
         }
-        #curr{float: auto; font-size:40pt; color: rgb(130, 224, 255)}
+        #curr{font-size:40pt; color: rgb(130, 224, 255)}
         #logout{float: right; background-color: #ff917f; font-size:20pt; width: 15%;}
         #myHeader{background-color: #000000}
         #select{font-size:20pt; width: 15%;}
@@ -32,11 +32,11 @@
 <body>
 <div id="myHeader">
     <form action="logout">
-        <label for="logout" id="curr">--> current chat: general</label>
+        <label for="logout" id="curr">--> current chat: <%=user%></label>
         <button id="logout">Logout</button>
     </form>
     <form action="selectUser" method="post" id="selectUserForm">
-        <input type="text" name="username" value="" autocomplete="off" id="userSelect" placeholder="select user"/>
+        <input type="text" name="username" value="" autocomplete="off" id="userSelect" placeholder="select chat"/>
         <button type="submit" id="select">Select</button>
     </form>
 
