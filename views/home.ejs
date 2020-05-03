@@ -8,11 +8,12 @@
         #chatText { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%;}
         #m { background: #000; border-left: 10px solid #4dc71f; padding: 10px; width: 70%; font-size:60pt; margin-right: 0.5%; color: #4dc71f}
         button { width: 29%; background: rgb(130, 224, 255); border: none; font-size:60pt; padding: 10px; }
-        #userSelect{background: #000; border-bottom: 3px dotted #529da4; padding: 10px; width: 70%; font-size:20pt; margin-right: 0.5%; color: #989fa2;
+        #userSelect{background: #000; border-bottom: 3px dotted #529da4; padding: 10px; width: 84%; font-size:20pt; margin-right: 0.5%; color: #989fa2;
         }
-        #logout{background-color: #ff917f; font-size:20pt; width: 14%;}
+        #curr{float: auto; font-size:40pt; color: rgb(130, 224, 255)}
+        #logout{float: right; background-color: #ff917f; font-size:20pt; width: 15%;}
         #myHeader{background-color: #000000}
-        #select{font-size:20pt; width: 14%;}
+        #select{font-size:20pt; width: 15%;}
         #messages { list-style-type: none; margin: 0; margin-bottom: 30%; padding: 0; font-size:60pt}
         #messages li { padding: 5px 10px; }
         #messages li:nth-child(odd) { background: #101010; color: #4dc71f}
@@ -30,10 +31,13 @@
 </head>
 <body>
 <div id="myHeader">
+    <form action="logout">
+        <label for="logout" id="curr">--> current chat: general</label>
+        <button id="logout">Logout</button>
+    </form>
     <form action="selectUser" method="post" id="selectUserForm">
         <input type="text" name="username" value="" autocomplete="off" id="userSelect" placeholder="select user"/>
         <button type="submit" id="select">Select</button>
-            <button id="logout"><a  href="/logout" >Logout</a></button>
     </form>
 
 </div>
